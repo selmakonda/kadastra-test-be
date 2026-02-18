@@ -1,27 +1,23 @@
 package com.example.gisdashboard.controller;
 
-import com.example.gisdashboard.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.gisdashboard.model.Owner;
+import com.example.gisdashboard.service.OwnerService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private UserService userService;
+    private final OwnerService ownerService;
+
+    public AuthController(OwnerService ownerService) {
+        this.ownerService = ownerService;
+    }
 
     @PostMapping("/register")
-    public String register(@RequestParam String username, @RequestParam String password){
-        userService.saveUser(username, password);
-        return "User registered!";
+    public Owner register(@RequestBody Owner owner) {
+        return ownerService.registerOwner(owner);
     }
 
-    @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password){
-        if(userService.checkUser(username, password)){
-            return "Login successful!";
-        }
-        return "Invalid credentials!";
-    }
+    // Add login endpoint here
 }

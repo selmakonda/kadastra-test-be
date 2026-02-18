@@ -2,32 +2,37 @@ package com.example.gisdashboard.service;
 
 import com.example.gisdashboard.model.Parcel;
 import com.example.gisdashboard.repository.ParcelRepository;
-import org.locationtech.jts.io.geojson.GeoJsonReader;
 import org.locationtech.jts.geom.Geometry;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.locationtech.jts.io.WKTReader;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.nio.charset.StandardCharsets;
 
 @Service
 public class GISLayerService {
 
-    @Autowired
-    private ParcelRepository parcelRepository;
+    private final ParcelRepository parcelRepository;
 
-    public void saveLayer(MultipartFile file) throws Exception {
-        String content = new String(file.getBytes(), StandardCharsets.UTF_8);
+    public GISLayerService(ParcelRepository parcelRepository) {
+        this.parcelRepository = parcelRepository;
+    }
 
-        // Example: assuming file is GeoJSON
-        GeoJsonReader reader = new GeoJsonReader();
-        Geometry geom = reader.read(content);
+    public void saveLayer(MultipartFile file) {
+        try {
+            // For now assume file contains WKT geometry as text
+            String content = new String(file.getBytes());
 
-        Parcel parcel = new Parcel();
-        parcel.setParcelNo("uploaded_parcel");
-        parcel.setArea(100.0);
-        parcel.setGeom(geom);
+            WKTReader reader = new WKTReader();
+            Geometry geometry = reader.read(content);
 
-        parcelRepository.save(parcel);
+            Parcel parcel = new Parcel();
+            parcel.setParcelNo("AUTO-" + System.currentTimeMillis());
+            parcel.setArea(geometry.getArea());
+            parcel.setGeom(geometry);
+
+            parcelRepository.save(parcel);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error processing GIS layer", e);
+        }
     }
 }

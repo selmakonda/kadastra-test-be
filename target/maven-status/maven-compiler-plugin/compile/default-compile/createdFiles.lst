@@ -1,0 +1,10 @@
+com\example\gisdashboard\KadastraTestBeApplication.class
+com\example\gisdashboard\repository\ParcelRepository.class
+com\example\gisdashboard\repository\OwnerRepository.class
+com\example\gisdashboard\controller\AuthController.class
+com\example\gisdashboard\service\GISLayerService.class
+com\example\gisdashboard\model\Owner.class
+com\example\gisdashboard\config\SecurityConfig.class
+com\example\gisdashboard\controller\FileController.class
+com\example\gisdashboard\service\OwnerService.class
+com\example\gisdashboard\model\Parcel.class

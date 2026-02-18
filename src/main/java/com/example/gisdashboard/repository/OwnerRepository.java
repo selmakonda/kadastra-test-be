@@ -1,9 +1,8 @@
 package com.example.gisdashboard.repository;
 
-import com.example.gisdashboard.model.User;
+import com.example.gisdashboard.model.Owner;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByUsername(String username);
+public interface OwnerRepository extends JpaRepository<Owner, Long> {
+    Owner findByUsername(String username);
 }
