@@ -3,7 +3,7 @@ package com.example.gisdashboard.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "owners", schema = "kadastra-test-gis")
+@Table(name = "owners", schema = "gis-test")
 public class Owner {
 
     @Id
